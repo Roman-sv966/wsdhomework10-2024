@@ -22,6 +22,25 @@ def validate_url(url: Optional[str]) -> Optional[str]:
         raise ValueError('Invalid URL format')
     return url
 
+def validate_password(password: str) -> str:
+    """
+    Validates the strength of a password based on specific criteria:
+    - Length: 8 to 32 characters.
+    - Must include at least one uppercase letter, one lowercase letter,
+      one numeric digit, and one special character.
+    """
+    if not (8 <= len(password) <= 32):
+        raise ValueError("Password length must be between 8 and 32 characters.")
+    if not any(char.isupper() for char in password):
+        raise ValueError("Password must include at least one uppercase letter.")
+    if not any(char.islower() for char in password):
+        raise ValueError("Password must include at least one lowercase letter.")
+    if not any(char.isdigit() for char in password):
+        raise ValueError("Password must include at least one numeric digit.")
+    if not any(char in "@$!%*?&" for char in password):
+        raise ValueError("Password must include at least one special character: @$!%*?&")
+    return password
+
 class UserBase(BaseModel):
     email: EmailStr = Field(..., example="john.doe@example.com")
     nickname: Optional[str] = Field(None, min_length=3, pattern=r'^[\w-]+$', example=generate_nickname())
@@ -37,9 +56,22 @@ class UserBase(BaseModel):
     class Config:
         from_attributes = True
 
-class UserCreate(UserBase):
-    email: EmailStr = Field(..., example="john.doe@example.com")
-    password: str = Field(..., example="Secure*1234")
+class UserCreate(BaseModel):
+    """
+    Model for user creation with email and password validation.
+    """
+    email: EmailStr = Field(..., example="user@example.com")
+    password: str = Field(..., example="SecurePassword123!")
+
+    @root_validator(pre=True)
+    def validate_fields(cls, values):
+        """
+        Validates user creation fields, ensuring the password meets the criteria.
+        """
+        password = values.get("password")
+        if password:
+            values["password"] = validate_password(password)
+        return values
 
 class UserUpdate(UserBase):
     email: Optional[EmailStr] = Field(None, example="john.doe@example.com")
@@ -66,8 +98,21 @@ class UserResponse(UserBase):
     is_professional: Optional[bool] = Field(default=False, example=True)
 
 class LoginRequest(BaseModel):
-    email: str = Field(..., example="john.doe@example.com")
-    password: str = Field(..., example="Secure*1234")
+    """
+    Model for user login with email and password validation.
+    """
+    email: str = Field(..., example="user@example.com")
+    password: str = Field(..., example="SecurePassword123!")
+
+    @root_validator(pre=True)
+    def validate_login_password(cls, values):
+        """
+        Validates login request fields, ensuring the password meets the criteria.
+        """
+        password = values.get("password")
+        if password:
+            validate_password(password)
+        return values
 
 class ErrorResponse(BaseModel):
     error: str = Field(..., example="Not Found")
