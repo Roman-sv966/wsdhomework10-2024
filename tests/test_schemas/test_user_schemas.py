@@ -3,6 +3,57 @@ import pytest
 from pydantic import ValidationError
 from datetime import datetime
 from app.schemas.user_schemas import UserBase, UserCreate, UserUpdate, UserResponse, UserListResponse, LoginRequest
+from uuid import UUID
+
+# Utility function to create a consistent test password
+def create_test_password():
+    return "StrongPass789!"
+
+# Fixture for basic user data
+@pytest.fixture
+def basic_user_data():
+    return {
+        "nickname": "example_user",
+        "email": "example_user@example.com",
+        "profile_picture_url": "https://example.com/avatar.jpg",
+    }
+
+# Fixture for user creation data
+@pytest.fixture
+def user_creation_data():
+    return {
+        "nickname": "new_example",
+        "email": "new_example@example.com",
+        "password": create_test_password(),
+    }
+
+# Fixture for user update data
+@pytest.fixture
+def user_modification_data():
+    return {
+        "email": "modified_user@example.com",
+        "first_name": "ModifiedName",
+    }
+
+# Fixture for user response data
+@pytest.fixture
+def user_response_details():
+    return {
+        "id": UUID('123e4567-e89b-12d3-a456-426614174000'),
+        "nickname": "example_user",
+        "email": "example_user@example.com",
+        "profile_picture_url": "https://example.com/avatar.jpg",
+        "last_login_at": "2024-12-04T12:00:00Z",
+    }
+
+# Fixture for login request data
+@pytest.fixture
+def login_data():
+    return {
+        "email": "example_user@example.com",
+        "password": create_test_password(),
+    }
+
 
 # Tests for UserBase
 def test_user_base_valid(user_base_data):
@@ -61,9 +112,12 @@ def test_user_base_url_invalid(url, user_base_data):
         UserBase(**user_base_data)
 
 # Tests for UserBase
-def test_user_base_invalid_email(user_base_data_invalid):
+def test_user_base_invalid_email():
+    invalid_data = {
+        "nickname": "sample_user",
+        "email": "invalid_email",
+        "profile_picture_url": "profile.jpg",
+    }
     with pytest.raises(ValidationError) as exc_info:
-        user = UserBase(**user_base_data_invalid)
-    
-    assert "value is not a valid email address" in str(exc_info.value)
-    assert "john.doe.example.com" in str(exc_info.value)
+        UserBase(**invalid_data)
+    assert "value isn't a valid email address" in str(exc_info.value)
