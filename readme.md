@@ -24,7 +24,7 @@ Welcome to the Event Manager Company! As a newly hired Software QA Analyst/Devel
 
 ## Collaborative Development Using Git
 1. **Enable Issue Tracking**: Enabled GitHub issues in the repository settings to track bugs, enhancements, and other tasks.
-2. **Create Branches**: Created branches for each issue/task using descriptive names:
+2. **Create Branches**: Created branches for each issue/task using descriptive names: 
    - [Username Validation Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/10)
    - [Token-Based Authentication Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/9)
    - [Password Validation Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/8)
@@ -33,6 +33,14 @@ Welcome to the Event Manager Company! As a newly hired Software QA Analyst/Devel
    - [Email Validation Issue](https://github.com/Roman-sv966/wsdhomework10-2024/issues/5)
 3. **Pull Requests and Code Reviews**: Created pull requests for each branch and reviewed code to ensure high-quality contributions.
 
+## ISSUES are attached
+   - [Username Validation Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/10)
+   - [Token-Based Authentication Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/9)
+   - [Password Validation Enhancement](https://github.com/Roman-sv966/wsdhomework10-2024/issues/8)
+   - [Nickname Validation Issue](https://github.com/Roman-sv966/wsdhomework10-2024/issues/7)
+   - [Refactor Test Fixtures for User Schemas](https://github.com/Roman-sv966/wsdhomework10-2024/issues/6)
+   - [Email Validation Issue](https://github.com/Roman-sv966/wsdhomework10-2024/issues/5)
+     
 ## Docker Image
 The project is available as a Docker image for deployment: [Dockerhub Project Image](https://hub.docker.com/repository/docker/sv966/event-manager-api/general).
 
