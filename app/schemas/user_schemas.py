@@ -62,6 +62,7 @@ class UserCreate(BaseModel):
     """
     email: EmailStr = Field(..., example="user@example.com")
     password: str = Field(..., example="SecurePassword123!")
+    nickname: str = Field(..., example="john")
 
     @root_validator(pre=True)
     def validate_fields(cls, values):
