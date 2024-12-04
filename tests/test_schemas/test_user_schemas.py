@@ -111,7 +111,6 @@ def test_user_base_url_invalid(url, user_base_data):
     with pytest.raises(ValidationError):
         UserBase(**user_base_data)
 
-# Tests for UserBase
 def test_user_base_invalid_email():
     invalid_data = {
         "nickname": "sample_user",
@@ -120,4 +119,4 @@ def test_user_base_invalid_email():
     }
     with pytest.raises(ValidationError) as exc_info:
         UserBase(**invalid_data)
-    assert "value isn't a valid email address" in str(exc_info.value)
+    assert "value is not a valid email address" in str(exc_info.value)
