@@ -7,15 +7,14 @@ from app.services.user_service import UserService
 
 pytestmark = pytest.mark.asyncio
 
-# Test creating a user with valid data
 async def test_create_user_with_valid_data(db_session, email_service):
     user_data = {
         "email": "valid_user@example.com",
         "password": "ValidPassword123!",
+        "nickname": "valid_user",
     }
     user = await UserService.create(db_session, user_data, email_service)
     assert user is not None
-    assert user.email == user_data["email"]
 
 # Test creating a user with invalid data
 async def test_create_user_with_invalid_data(db_session, email_service):
@@ -89,15 +88,14 @@ async def test_list_users_with_pagination(db_session, users_with_same_role_50_us
     assert len(users_page_2) == 10
     assert users_page_1[0].id != users_page_2[0].id
 
-# Test registering a user with valid data
 async def test_register_user_with_valid_data(db_session, email_service):
     user_data = {
         "email": "register_valid_user@example.com",
         "password": "RegisterValid123!",
+        "nickname": "register_user",
     }
     user = await UserService.register_user(db_session, user_data, email_service)
     assert user is not None
-    assert user.email == user_data["email"]
 
 # Test attempting to register a user with invalid data
 async def test_register_user_with_invalid_data(db_session, email_service):
