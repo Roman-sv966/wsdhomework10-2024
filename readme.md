@@ -34,7 +34,7 @@ Welcome to the Event Manager Company! As a newly hired Software QA Analyst/Devel
 3. **Pull Requests and Code Reviews**: Created pull requests for each branch and reviewed code to ensure high-quality contributions.
 
 ## Docker Image
-The project is available as a Docker image for deployment: [Dockerhub Project Image](https://hub.docker.com/repository/docker/sv966/event-manager-api).
+The project is available as a Docker image for deployment: [Dockerhub Project Image](https://hub.docker.com/repository/docker/sv966/event-manager-api/general).
 
 ## Submission Requirements
 - **GitHub Repository Link**: Ensure the repository includes:
