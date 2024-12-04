@@ -45,6 +45,22 @@ engine = create_async_engine(TEST_DATABASE_URL, echo=settings.debug)
 AsyncTestingSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 AsyncSessionScoped = scoped_session(AsyncTestingSessionLocal)
 
+@pytest.fixture
+def async_client():
+    client = TestClient(app)
+    return client
+
+@pytest.fixture
+def user_token():
+    return create_access_token(data={"sub": "john_doe", "role": UserRole.AUTHENTICATED.value})
+
+@pytest.fixture
+def admin_token():
+    return create_access_token(data={"sub": "admin", "role": UserRole.ADMIN.value})
+
+@pytest.fixture
+def manager_token():
+    return create_access_token(data={"sub": "manager", "role": UserRole.MANAGER.value})
 
 @pytest.fixture
 def email_service():
@@ -215,6 +231,7 @@ async def manager_user(db_session: AsyncSession):
 @pytest.fixture
 def user_base_data():
     return {
+        "nickname": "sample_user",
         "username": "john_doe_123",
         "email": "john.doe@example.com",
         "full_name": "John Doe",
@@ -227,6 +244,7 @@ def user_base_data_invalid():
     return {
         "username": "john_doe_123",
         "email": "john.doe.example.com",
+        "nickname": "John",
         "full_name": "John Doe",
         "bio": "I am a software engineer with over 5 years of experience.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe.jpg"
@@ -241,6 +259,7 @@ def user_create_data(user_base_data):
 def user_update_data():
     return {
         "email": "john.doe.new@example.com",
+        "first_name": "John",
         "full_name": "John H. Doe",
         "bio": "I specialize in backend development with Python and Node.js.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe_updated.jpg"
@@ -249,7 +268,7 @@ def user_update_data():
 @pytest.fixture
 def user_response_data():
     return {
-        "id": "unique-id-string",
+        "id": uuid4(),
         "username": "testuser",
         "email": "test@example.com",
         "last_login_at": datetime.now(),
@@ -260,4 +279,4 @@ def user_response_data():
 
 @pytest.fixture
 def login_request_data():
-    return {"username": "john_doe_123", "password": "SecurePassword123!"}
+    return {"username": "john_doe_123","email":"john.doe@gmail.com", "password": "SecurePassword123!"}
